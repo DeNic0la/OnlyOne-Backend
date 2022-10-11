@@ -24,7 +24,7 @@ public class SecurityConfiguration { //TODO: ALEXXXXXXXXX YOU DO THAT SHIT I HAV
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/h2**", "/ignore2");
+        return (web) -> web.ignoring().antMatchers("/h2**", "/**"/*This simply ignores all security*/);
     }
 
 }

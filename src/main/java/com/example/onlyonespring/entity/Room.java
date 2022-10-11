@@ -1,0 +1,39 @@
+package com.example.onlyonespring.entity;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "room")
+public class Room {
+    @Id
+    @Getter
+    @Setter
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private Integer id;
+
+    @Getter
+    @Setter
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Getter
+    @Setter
+    @Column(name = "player_count", nullable = false)
+    private Integer player_count;
+
+    @Getter
+    @Setter
+    @Column(name = "max_player_count", nullable = false)
+    private Integer max_player_count;
+
+    @Getter
+    @Setter
+    @Column(name = "status", nullable = false)
+    private String status;
+
+}
