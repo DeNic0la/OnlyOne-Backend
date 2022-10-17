@@ -46,4 +46,14 @@ public class Room {
     @Column(name = "status", nullable = false)
     private String status;
 
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", player_count=" + player_count +
+                ", max_player_count=" + max_player_count +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

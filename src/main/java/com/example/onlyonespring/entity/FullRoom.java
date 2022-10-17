@@ -19,4 +19,11 @@ public class FullRoom extends Room {
                     referencedColumnName = "id"))
     private List<Player> joinedPlayers;
 
+    @Override
+    public String toString() {
+        return "FullRoom{" +
+                "joinedPlayers=" + joinedPlayers +
+                super.toString() +
+                '}';
+    }
 }

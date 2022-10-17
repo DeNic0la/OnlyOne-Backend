@@ -1,7 +1,10 @@
 package com.example.onlyonespring.controller;
 
+import com.example.onlyonespring.Exception.FourZeroFourException;
 import com.example.onlyonespring.entity.FullRoom;
+import com.example.onlyonespring.entity.Player;
 import com.example.onlyonespring.entity.Room;
+import com.example.onlyonespring.repository.PlayerRepository;
 import com.example.onlyonespring.repository.RoomRepository;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +12,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RoomController {
 
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private PlayerRepository playerRepository;
+
 
     @GetMapping("/room")
     public List<Room> getAllRooms(){
@@ -33,4 +40,27 @@ public class RoomController {
         return savedRoom;
     }
 
+    @PostMapping("/room/{id}")
+    public boolean joinRoom(@RequestHeader("x-user") String user,@PathVariable Integer id){
+        Optional<FullRoom> byId = this.roomRepository.findById(id);
+        byId.ifPresentOrElse(fullRoom -> {
+            playerRepository.findPlayerByUsername(user).ifPresentOrElse(player -> {
+                this.playerJoinRoom(player,fullRoom);
+            },() -> {
+                Player player = new Player();
+                player.setUsername(user);
+                this.playerJoinRoom(playerRepository.saveAndFlush(player),fullRoom);
+            });
+        }, () -> { throw new FourZeroFourException(); });
+        return true;
+    }
+
+    private void playerJoinRoom(Player p,FullRoom r){
+        List<FullRoom> joinedRooms = p.getJoinedRooms();
+        System.out.println(r);
+        System.out.println(p);
+        joinedRooms.add(r);
+        p.setJoinedRooms(joinedRooms);
+        playerRepository.save(p);
+    }
 }

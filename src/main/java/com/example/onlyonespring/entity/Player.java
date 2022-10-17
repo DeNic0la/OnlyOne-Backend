@@ -11,6 +11,15 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "player")
 public class Player {
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", joinedRooms=" + joinedRooms +
+                '}';
+    }
+
     @Id
     @Getter
     @Setter
