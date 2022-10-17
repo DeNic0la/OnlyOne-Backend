@@ -66,4 +66,14 @@ public class RoomController {
         p.setJoinedRooms(joinedRooms);
         playerRepository.save(p);
     }
+
+    @GetMapping("/room/{id}")
+    public Room getRoomInfo(@PathVariable Integer id){
+        Optional<FullRoom> room = roomRepository.findById(id);
+        if (room.isPresent()){
+            return new Room(room.get());
+        }
+        throw new FourZeroFourException();
+
+    }
 }
