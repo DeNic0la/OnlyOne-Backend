@@ -49,7 +49,9 @@ public class RoomController {
             },() -> {
                 Player player = new Player();
                 player.setUsername(user);
-                this.playerJoinRoom(playerRepository.saveAndFlush(player),fullRoom);
+                Player savedPlayer = playerRepository.saveAndFlush(player);
+                System.out.println(savedPlayer);
+                this.playerJoinRoom(player,fullRoom);
             });
         }, () -> { throw new FourZeroFourException(); });
         return true;
@@ -57,6 +59,7 @@ public class RoomController {
 
     private void playerJoinRoom(Player p,FullRoom r){
         List<FullRoom> joinedRooms = p.getJoinedRooms();
+        if (joinedRooms == null) joinedRooms = new ArrayList<>();
         System.out.println(r);
         System.out.println(p);
         joinedRooms.add(r);
