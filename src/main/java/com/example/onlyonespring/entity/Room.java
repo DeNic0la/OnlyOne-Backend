@@ -2,13 +2,23 @@ package com.example.onlyonespring.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "room")
+@NoArgsConstructor
 public class Room {
+
+    public Room(FullRoom r){
+        this.id = r.getId();
+        this.status = r.getStatus();
+        this.name = r.getName();
+        this.max_player_count = r.getMax_player_count();
+        this.player_count = r.getPlayer_count();
+    }
+
     @Id
     @Getter
     @Setter
