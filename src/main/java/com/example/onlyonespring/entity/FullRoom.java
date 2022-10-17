@@ -26,4 +26,13 @@ public class FullRoom extends Room {
                 super.toString() +
                 '}';
     }
+
+    @Override
+    public Integer getPlayer_count() {
+        if (this.joinedPlayers == null || this.joinedPlayers.isEmpty()) {
+            return 0;
+        }
+        return this.joinedPlayers.size(); /* Calls the Integer.valueOf(int) function*/
+
+    }
 }

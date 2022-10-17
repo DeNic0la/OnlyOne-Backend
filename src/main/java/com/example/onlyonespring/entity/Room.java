@@ -33,7 +33,6 @@ public class Room {
 
     @Getter
     @Setter
-    @Column(name = "player_count", nullable = false)
     private Integer player_count;
 
     @Getter

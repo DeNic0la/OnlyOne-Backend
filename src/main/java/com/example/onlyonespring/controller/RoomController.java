@@ -8,6 +8,8 @@ import com.example.onlyonespring.repository.PlayerRepository;
 import com.example.onlyonespring.repository.RoomRepository;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -75,5 +77,20 @@ public class RoomController {
         }
         throw new FourZeroFourException();
 
+    }
+
+    @PutMapping("/room/{id}")
+    public ResponseEntity<String> leaveRoom(@RequestHeader("x-user") String user,@PathVariable Integer id){
+        Optional<Player> playerByUsername = playerRepository.findPlayerByUsername(user);
+        Optional<FullRoom> byId = roomRepository.findById(id);
+
+        if (playerByUsername.isPresent() && byId.isPresent()){
+            Player player = playerByUsername.get();
+            FullRoom fullRoom = byId.get();
+            List<Player> joinedPlayers = fullRoom.getJoinedPlayers();
+            joinedPlayers.remove(player);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        throw new FourZeroFourException();
     }
 }
