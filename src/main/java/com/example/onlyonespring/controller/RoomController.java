@@ -46,27 +46,22 @@ public class RoomController {
     public boolean joinRoom(@RequestHeader("x-user") String user,@PathVariable Integer id){
         Optional<FullRoom> byId = this.roomRepository.findById(id);
         byId.ifPresentOrElse(fullRoom -> {
-            playerRepository.findPlayerByUsername(user).ifPresentOrElse(player -> {
-                this.playerJoinRoom(player,fullRoom);
-            },() -> {
-                Player player = new Player();
-                player.setUsername(user);
-                Player savedPlayer = playerRepository.saveAndFlush(player);
-                System.out.println(savedPlayer);
-                this.playerJoinRoom(player,fullRoom);
-            });
+            Player player = HelperController.getOrCreatePlayerByUsername(user, playerRepository);
+            this.playerJoinRoom(player,fullRoom);
         }, () -> { throw new FourZeroFourException(); });
         return true;
     }
 
     private void playerJoinRoom(Player p,FullRoom r){
         List<FullRoom> joinedRooms = p.getJoinedRooms();
-        if (joinedRooms == null) joinedRooms = new ArrayList<>();
-        System.out.println(r);
-        System.out.println(p);
-        joinedRooms.add(r);
-        p.setJoinedRooms(joinedRooms);
-        playerRepository.save(p);
+        if (joinedRooms.contains(r)){
+            System.out.println(p.getUsername() + " Already Joined Room " + r.getId());
+        }
+        else {
+            joinedRooms.add(r);
+            p.setJoinedRooms(joinedRooms);
+            playerRepository.save(p);
+        }
     }
 
     @GetMapping("/room/{id}")
