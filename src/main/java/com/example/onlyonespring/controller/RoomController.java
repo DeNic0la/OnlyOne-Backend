@@ -1,6 +1,7 @@
 package com.example.onlyonespring.controller;
 
 import com.example.onlyonespring.Exception.FourZeroFourException;
+import com.example.onlyonespring.Exception.YouAreHackerException;
 import com.example.onlyonespring.entity.FullRoom;
 import com.example.onlyonespring.entity.Player;
 import com.example.onlyonespring.entity.Room;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -48,6 +50,36 @@ public class RoomController {
         byId.ifPresentOrElse(fullRoom -> {
             Player player = HelperController.getOrCreatePlayerByUsername(user, playerRepository);
             this.playerJoinRoom(player,fullRoom);
+        }, () -> { throw new FourZeroFourException(); });
+        return true;
+    }
+
+    @PostMapping("/state/{id}")
+    public boolean changeRoomState(@RequestHeader("x-user") String user,@PathVariable Integer id,@RequestBody String state){
+        Optional<FullRoom> byId = this.roomRepository.findById(id);
+        byId.ifPresentOrElse(fullRoom -> {
+            Player player = HelperController.getOrCreatePlayerByUsername(user, playerRepository);
+            Player host = null;
+            try {
+                host = fullRoom.getJoinedPlayers().get(0);
+                host.getUsername();
+            }
+            catch (Exception e){
+                throw new YouAreHackerException();
+            }
+            if (Objects.equals(host.getUsername(), player.getUsername())){
+                if (Objects.equals(state, "run")) {
+                    fullRoom.setStatus("run");
+                }
+                else if (Objects.equals(state, "finished")) {
+                    fullRoom.setStatus("finished");
+                }
+                else throw new YouAreHackerException();
+            }
+            else {
+                throw new YouAreHackerException();
+            }
+
         }, () -> { throw new FourZeroFourException(); });
         return true;
     }
