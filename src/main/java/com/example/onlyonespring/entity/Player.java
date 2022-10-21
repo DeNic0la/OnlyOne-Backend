@@ -16,7 +16,7 @@ public class Player {
         return "Player{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", joinedRooms=" + joinedRooms +
+                ", joinedRooms=" + joinedRooms.size() +
                 '}';
     }
 
