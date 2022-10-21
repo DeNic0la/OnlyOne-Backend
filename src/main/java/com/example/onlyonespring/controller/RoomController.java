@@ -75,6 +75,7 @@ public class RoomController {
                     fullRoom.setStatus("finished");
                 }
                 else throw new YouAreHackerException();
+                roomRepository.save(fullRoom);
             }
             else {
                 throw new YouAreHackerException();
