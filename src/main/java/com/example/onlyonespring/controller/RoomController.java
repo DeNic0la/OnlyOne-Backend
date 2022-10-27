@@ -1,6 +1,7 @@
 package com.example.onlyonespring.controller;
 
 import com.example.onlyonespring.Exception.FourZeroFourException;
+import com.example.onlyonespring.Exception.YouAreHackerException;
 import com.example.onlyonespring.entity.FullRoom;
 import com.example.onlyonespring.entity.Player;
 import com.example.onlyonespring.entity.Room;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -46,27 +48,53 @@ public class RoomController {
     public boolean joinRoom(@RequestHeader("x-user") String user,@PathVariable Integer id){
         Optional<FullRoom> byId = this.roomRepository.findById(id);
         byId.ifPresentOrElse(fullRoom -> {
-            playerRepository.findPlayerByUsername(user).ifPresentOrElse(player -> {
-                this.playerJoinRoom(player,fullRoom);
-            },() -> {
-                Player player = new Player();
-                player.setUsername(user);
-                Player savedPlayer = playerRepository.saveAndFlush(player);
-                System.out.println(savedPlayer);
-                this.playerJoinRoom(player,fullRoom);
-            });
+            Player player = HelperController.getOrCreatePlayerByUsername(user, playerRepository);
+            this.playerJoinRoom(player,fullRoom);
+        }, () -> { throw new FourZeroFourException(); });
+        return true;
+    }
+
+    @PostMapping("/state/{id}")
+    public boolean changeRoomState(@RequestHeader("x-user") String user,@PathVariable Integer id,@RequestBody String state){
+        Optional<FullRoom> byId = this.roomRepository.findById(id);
+        byId.ifPresentOrElse(fullRoom -> {
+            Player player = HelperController.getOrCreatePlayerByUsername(user, playerRepository);
+            Player host = null;
+            try {
+                host = fullRoom.getJoinedPlayers().get(0);
+                host.getUsername();
+            }
+            catch (Exception e){
+                throw new YouAreHackerException();
+            }
+            if (Objects.equals(host.getUsername(), player.getUsername())){
+                if (Objects.equals(state, "run")) {
+                    fullRoom.setStatus("run");
+                }
+                else if (Objects.equals(state, "finished")) {
+                    fullRoom.setStatus("finished");
+                }
+                else throw new YouAreHackerException();
+                roomRepository.save(fullRoom);
+            }
+            else {
+                throw new YouAreHackerException();
+            }
+
         }, () -> { throw new FourZeroFourException(); });
         return true;
     }
 
     private void playerJoinRoom(Player p,FullRoom r){
         List<FullRoom> joinedRooms = p.getJoinedRooms();
-        if (joinedRooms == null) joinedRooms = new ArrayList<>();
-        System.out.println(r);
-        System.out.println(p);
-        joinedRooms.add(r);
-        p.setJoinedRooms(joinedRooms);
-        playerRepository.save(p);
+        if (joinedRooms.contains(r)){
+            System.out.println(p.getUsername() + " Already Joined Room " + r.getId());
+        }
+        else {
+            joinedRooms.add(r);
+            p.setJoinedRooms(joinedRooms);
+            playerRepository.save(p);
+        }
     }
 
     @GetMapping("/room/{id}")
