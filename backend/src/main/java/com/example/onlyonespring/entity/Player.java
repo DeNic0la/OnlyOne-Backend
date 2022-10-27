@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,7 @@ public class Player {
         return "Player{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", joinedRooms=" + joinedRooms +
+                ", joinedRooms=" + (joinedRooms.isEmpty() ? "Empty" : joinedRooms.size()) +
                 '}';
     }
 
@@ -39,7 +40,7 @@ public class Player {
             joinColumns = @JoinColumn(name = "room_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "player_id",
                     referencedColumnName = "id"))
-    private List<FullRoom> joinedRooms;
+    private List<FullRoom> joinedRooms = new ArrayList<>();
 
 
 }

@@ -16,6 +16,8 @@ public class Room {
         this.name = r.getName();
         this.max_player_count = r.getMax_player_count();
         this.player_count = r.getPlayer_count();
+        Player host = r.getJoinedPlayers() == null ? null : r.getJoinedPlayers().get(0);
+        this.host = (host == null ? "" : host.getUsername());
     }
 
     @Id
@@ -43,6 +45,10 @@ public class Room {
     @Setter
     @Column(name = "status", nullable = false)
     private String status;
+
+    @Setter
+    @Getter
+    private String host;
 
     @Override
     public String toString() {
