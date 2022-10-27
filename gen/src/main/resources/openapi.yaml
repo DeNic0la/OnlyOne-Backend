@@ -1,0 +1,341 @@
+openapi: 3.0.3
+info:
+  description: This is the Open API specification for the Project OnlyOne
+  title: OnlyOne
+  version: 1.0.0
+servers:
+  - url: localhost:8080
+tags:
+  - description: Interacting with Rooms
+    name: room
+  - description: Access to Information about a Running game
+    name: game
+  - description: Playing the game and getting Information about own Cards
+    name: play
+paths:
+  /room:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Room'
+                type: array
+          description: showing rooms
+      summary: Get all available rooms
+      tags:
+        - room
+      x-accepts: application/json
+      x-tags:
+        - tag: room
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoomRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+          description: Room Created
+        "405":
+          description: Room already exists
+      summary: Create a new Room
+      tags:
+        - room
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+        - tag: room
+  /room/{id}:
+    get:
+      parameters:
+        - explode: false
+          in: header
+          name: x-user
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            $ref: '#/components/schemas/id'
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+          description: Displaying room Information
+      summary: get Information about the Room/Game
+      tags:
+        - room
+      x-accepts: application/json
+      x-tags:
+        - tag: room
+        - tag: game
+    post:
+      parameters:
+        - explode: false
+          in: header
+          name: x-user
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            $ref: '#/components/schemas/id'
+          style: simple
+      responses:
+        "200":
+          description: Joined room successfully
+      summary: Join a room
+      tags:
+        - room
+      x-accepts: application/json
+      x-tags:
+        - tag: room
+    put:
+      parameters:
+        - explode: false
+          in: header
+          name: x-user
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            $ref: '#/components/schemas/id'
+          style: simple
+      responses:
+        "200":
+          description: left room sucessfully
+      summary: leave a Room
+      tags:
+        - room
+      x-accepts: application/json
+      x-tags:
+        - tag: room
+  /game/{id}:
+    get:
+      parameters:
+        - explode: false
+          in: header
+          name: x-user
+          required: false
+          schema:
+            type: string
+          style: simple
+        - description: Id of the room to get Information from
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            $ref: '#/components/schemas/id'
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameStatus'
+          description: Displaying Game Information
+      summary: shows the current Card and Turn
+      tags:
+        - game
+      x-accepts: application/json
+      x-tags:
+        - tag: game
+  /play/{id}:
+    get:
+      parameters:
+        - explode: false
+          in: header
+          name: x-user
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            $ref: '#/components/schemas/id'
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Card'
+                type: array
+          description: Showing cards
+      summary: View all your Cards
+      tags:
+        - play
+      x-accepts: application/json
+      x-tags:
+        - tag: play
+    post:
+      parameters:
+        - explode: false
+          in: header
+          name: x-user
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            $ref: '#/components/schemas/id'
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Card'
+        description: Card to Play
+      responses:
+        "200":
+          description: Card was Played
+        "400":
+          description: not you turn error
+        "404":
+          description: you dont have such a card error
+      summary: Play a card
+      tags:
+        - play
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+        - tag: play
+  /play/{id}/new:
+    get:
+      parameters:
+        - explode: false
+          in: header
+          name: x-user
+          required: false
+          schema:
+            type: string
+          style: simple
+        - explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            $ref: '#/components/schemas/id'
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+          description: sucessfully pulled a card
+        "400":
+          description: not you turn error
+      summary: Pull a Card from the Stack
+      tags:
+        - play
+      x-accepts: application/json
+      x-tags:
+        - tag: play
+components:
+  schemas:
+    Room:
+      example:
+        player_count: 4
+        name: Toms cool people club
+        max_player_count: 10
+        id: 3
+        status: run
+      properties:
+        id:
+          example: 3
+          format: int64
+          type: integer
+        name:
+          example: Toms cool people club
+          type: string
+        player_count:
+          example: 4
+          format: int64
+          type: integer
+        max_player_count:
+          default: 10
+          example: 10
+          format: int64
+          type: integer
+        status:
+          enum:
+            - lobby
+            - run
+            - finished
+          example: run
+          type: string
+      type: object
+    RoomRequest:
+      example: Toms Playground
+      type: string
+    id:
+      example: 3
+      format: int64
+      type: integer
+    GameStatus:
+      example:
+        is_your_turn: true
+        card:
+          number: 4
+          color: blue
+      properties:
+        card:
+          $ref: '#/components/schemas/Card'
+        is_your_turn:
+          example: true
+          type: boolean
+      type: object
+    Card:
+      example:
+        number: 4
+        color: blue
+      properties:
+        number:
+          example: 4
+          format: int64
+          maximum: 9
+          minimum: 1
+          type: integer
+        color:
+          enum:
+            - blue
+            - green
+            - red
+            - yellow
+          example: blue
+          type: string
+      type: object
