@@ -5,7 +5,8 @@ info:
     This is the Open API specification for the Project OnlyOne
   version: 1.0.0
 servers:
-  - url: "localhost:8080"
+  - url: localhost:8080
+    description: localhost
 tags:
   - name: room
     description: Interacting with Rooms
@@ -234,7 +235,9 @@ components:
         status:
           type: string
           example: run
-          enum: ['lobby', 'run', 'finished']
+          enum: [ 'lobby', 'run', 'finished' ]
+        host:
+          type: string
     RoomRequest:
       type: string
       example: "Toms Playground"
