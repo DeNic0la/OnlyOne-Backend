@@ -12,7 +12,7 @@ import java.util.Objects;
  * Room
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-27T14:22:53.857087904+02:00[Europe/Zurich]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-11-03T14:41:14.790822958+01:00[Europe/Zurich]")
 public class Room {
 
   @JsonProperty("id")
@@ -67,6 +67,9 @@ public class Room {
   @JsonProperty("status")
   private StatusEnum status;
 
+  @JsonProperty("host")
+  private String host;
+
   public Room id(Long id) {
     this.id = id;
     return this;
@@ -74,8 +77,9 @@ public class Room {
 
   /**
    * Get id
+   *
    * @return id
-  */
+   */
   
   @Schema(name = "id", example = "3", required = false)
   public Long getId() {
@@ -150,9 +154,10 @@ public class Room {
 
   /**
    * Get status
+   *
    * @return status
-  */
-  
+   */
+
   @Schema(name = "status", example = "run", required = false)
   public StatusEnum getStatus() {
     return status;
@@ -160,6 +165,26 @@ public class Room {
 
   public void setStatus(StatusEnum status) {
     this.status = status;
+  }
+
+  public Room host(String host) {
+    this.host = host;
+    return this;
+  }
+
+  /**
+   * Get host
+   *
+   * @return host
+   */
+
+  @Schema(name = "host", required = false)
+  public String getHost() {
+    return host;
+  }
+
+  public void setHost(String host) {
+    this.host = host;
   }
 
   @Override
@@ -172,15 +197,16 @@ public class Room {
     }
     Room room = (Room) o;
     return Objects.equals(this.id, room.id) &&
-        Objects.equals(this.name, room.name) &&
-        Objects.equals(this.playerCount, room.playerCount) &&
-        Objects.equals(this.maxPlayerCount, room.maxPlayerCount) &&
-        Objects.equals(this.status, room.status);
+            Objects.equals(this.name, room.name) &&
+            Objects.equals(this.playerCount, room.playerCount) &&
+            Objects.equals(this.maxPlayerCount, room.maxPlayerCount) &&
+            Objects.equals(this.status, room.status) &&
+            Objects.equals(this.host, room.host);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, playerCount, maxPlayerCount, status);
+    return Objects.hash(id, name, playerCount, maxPlayerCount, status, host);
   }
 
   @Override
@@ -192,6 +218,7 @@ public class Room {
     sb.append("    playerCount: ").append(toIndentedString(playerCount)).append("\n");
     sb.append("    maxPlayerCount: ").append(toIndentedString(maxPlayerCount)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    host: ").append(toIndentedString(host)).append("\n");
     sb.append("}");
     return sb.toString();
   }

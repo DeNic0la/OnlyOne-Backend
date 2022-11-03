@@ -1,25 +1,17 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import org.openapitools.model.Card;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
-import java.util.*;
 import javax.annotation.Generated;
+import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * GameStatus
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-27T14:22:53.857087904+02:00[Europe/Zurich]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-11-03T14:41:14.790822958+01:00[Europe/Zurich]")
 public class GameStatus {
 
   @JsonProperty("card")
