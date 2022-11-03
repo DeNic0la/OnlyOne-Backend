@@ -106,7 +106,7 @@ paths:
           required: true
       responses:
         '200':
-          description: left room sucessfully
+          description: left room successfully
 
 
   /game/{id}:
@@ -202,7 +202,7 @@ paths:
             $ref: '#/components/schemas/id'
       responses:
         '200':
-          description: sucessfully pulled a card
+          description: Successfully pulled a card
           content:
             application/json:
               schema:
