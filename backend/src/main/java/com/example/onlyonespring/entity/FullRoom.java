@@ -2,13 +2,44 @@ package com.example.onlyonespring.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.openapitools.model.Room;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "room")
-public class FullRoom extends Room {
+public class FullRoom {
+
+    @Id
+    @Getter
+    @Setter
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+    @Getter
+    @Setter
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Getter
+    @Setter
+    private Long player_count;
+
+    @Getter
+    @Setter
+    @Column(name = "max_player_count", nullable = false)
+    private Long max_player_count;
+
+    @Getter
+    @Setter
+    @Column(name = "status", nullable = false)
+    private Room.StatusEnum status;
+
+    @Setter
+    @Getter
+    private String host;
 
     @Getter
     @Setter
@@ -27,7 +58,6 @@ public class FullRoom extends Room {
                 '}';
     }
 
-    @Override
     public Integer getPlayer_count() {
         if (this.joinedPlayers == null || this.joinedPlayers.isEmpty()) {
             return 0;
