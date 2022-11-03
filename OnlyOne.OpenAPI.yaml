@@ -72,7 +72,7 @@ paths:
       tags:
         - room
         - game
-      summary: get Information about the Room/Game
+      summary: Get Information about the Room/Game
       parameters:
         - in: header
           name: x-user
@@ -94,7 +94,7 @@ paths:
     put:
       tags:
         - room
-      summary: leave a Room
+      summary: Leave a Room
       parameters:
         - in: header
           name: x-user
@@ -107,14 +107,14 @@ paths:
           required: true
       responses:
         '200':
-          description: left room sucessfully
+          description: Left room successfully
 
 
   /game/{id}:
     get:
       tags:
         - game
-      summary: shows the current Card and Turn
+      summary: Shows the current Card and Turn
       parameters:
         - in: header
           name: x-user
@@ -159,9 +159,9 @@ paths:
         '200':
           description: Card was Played
         '400':
-          description: not your turn error
+          description: Not your turn error
         '404':
-          description: you dont have such a card error
+          description: You don't have such a card error
     get:
       tags:
         - play
@@ -203,7 +203,7 @@ paths:
             $ref: '#/components/schemas/id'
       responses:
         '200':
-          description: sucessfully pulled a card
+          description: Successfully pulled a card
           content:
             application/json:
               schema:
