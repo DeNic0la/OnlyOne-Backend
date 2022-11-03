@@ -6,7 +6,6 @@ import com.example.onlyonespring.entity.FullRoom;
 import com.example.onlyonespring.entity.Player;
 import com.example.onlyonespring.repository.PlayerRepository;
 import com.example.onlyonespring.repository.RoomRepository;
-import org.openapitools.api.RoomApi;
 import org.openapitools.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class RoomController implements RoomApi {
+@RestController
+public class RoomController {
 
     @Autowired
     private RoomRepository roomRepository;
@@ -27,9 +27,9 @@ public class RoomController implements RoomApi {
     private RoomMapper roomMapper;
 
 
-    public ResponseEntity<List<org.openapitools.model.Room>> roomGet() {
+    @GetMapping("/room")
+    public ResponseEntity<List<Room>> findAll() {
         return ResponseEntity.ok(roomRepository.findAll().stream().map(roomMapper::toDto).toList());
-
     }
 
     @PostMapping("/room")
@@ -44,7 +44,7 @@ public class RoomController implements RoomApi {
     }
 
     @PostMapping("/room/{id}")
-    public boolean joinRoom(@RequestHeader("x-user") String user, @PathVariable Integer id) {
+    public boolean joinRoom(@RequestHeader("x-user") String user, @PathVariable Long id) {
         Optional<FullRoom> byId = this.roomRepository.findById(id);
         byId.ifPresentOrElse(fullRoom -> {
             Player player = HelperController.getOrCreatePlayerByUsername(user, playerRepository);
@@ -56,7 +56,7 @@ public class RoomController implements RoomApi {
     }
 
     @PostMapping("/state/{id}")
-    public boolean changeRoomState(@RequestHeader("x-user") String user, @PathVariable Integer id, @RequestBody String state) {
+    public boolean changeRoomState(@RequestHeader("x-user") String user, @PathVariable Long id, @RequestBody String state) {
         Optional<FullRoom> byId = this.roomRepository.findById(id);
         byId.ifPresentOrElse(fullRoom -> {
             Player player = HelperController.getOrCreatePlayerByUsername(user, playerRepository);
@@ -96,7 +96,7 @@ public class RoomController implements RoomApi {
     }
 
     @GetMapping("/room/{id}")
-    public Room getRoomInfo(@PathVariable Integer id) {
+    public Room getRoomInfo(@PathVariable Long id) {
         Optional<FullRoom> room = roomRepository.findById(id);
         if (room.isPresent()) {
             return roomMapper.toDto(room.get());
@@ -106,7 +106,7 @@ public class RoomController implements RoomApi {
     }
 
     @PutMapping("/room/{id}")
-    public ResponseEntity<String> leaveRoom(@RequestHeader("x-user") String user, @PathVariable Integer id) {
+    public ResponseEntity<String> leaveRoom(@RequestHeader("x-user") String user, @PathVariable Long id) {
         Optional<Player> playerByUsername = playerRepository.findPlayerByUsername(user);
         Optional<FullRoom> byId = roomRepository.findById(id);
 
