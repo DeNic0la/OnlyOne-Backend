@@ -4,7 +4,7 @@ info:
   title: OnlyOne
   version: 1.0.0
 servers:
-  - url: localhost:8080
+  - url: http://localhost:8080
 tags:
   - description: Interacting with Rooms
     name: room

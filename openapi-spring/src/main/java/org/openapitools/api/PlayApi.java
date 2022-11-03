@@ -24,7 +24,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-11-03T14:41:14.790822958+01:00[Europe/Zurich]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-11-03T14:54:09.481151016+01:00[Europe/Zurich]")
 @Validated
 @Tag(name = "play", description = "Playing the game and getting Information about own Cards")
 @RequestMapping("${openapi.onlyOne.base-path:}")
@@ -80,7 +80,7 @@ public interface PlayApi {
      * @param id  (required)
      * @param xUser  (optional)
      * @return sucessfully pulled a card (status code 200)
-     *         or not you turn error (status code 400)
+     *         or not your turn error (status code 400)
      */
     @Operation(
         operationId = "playIdNewGet",
@@ -90,7 +90,7 @@ public interface PlayApi {
             @ApiResponse(responseCode = "200", description = "sucessfully pulled a card", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Card.class))
             }),
-            @ApiResponse(responseCode = "400", description = "not you turn error")
+                @ApiResponse(responseCode = "400", description = "not your turn error")
         }
     )
     @RequestMapping(
@@ -123,7 +123,7 @@ public interface PlayApi {
      * @param xUser  (optional)
      * @param card Card to Play (optional)
      * @return Card was Played (status code 200)
-     *         or not you turn error (status code 400)
+     *         or not your turn error (status code 400)
      *         or you dont have such a card error (status code 404)
      */
     @Operation(
@@ -131,9 +131,9 @@ public interface PlayApi {
         summary = "Play a card",
         tags = { "play" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Card was Played"),
-            @ApiResponse(responseCode = "400", description = "not you turn error"),
-            @ApiResponse(responseCode = "404", description = "you dont have such a card error")
+                @ApiResponse(responseCode = "200", description = "Card was Played"),
+                @ApiResponse(responseCode = "400", description = "not your turn error"),
+                @ApiResponse(responseCode = "404", description = "you dont have such a card error")
         }
     )
     @RequestMapping(

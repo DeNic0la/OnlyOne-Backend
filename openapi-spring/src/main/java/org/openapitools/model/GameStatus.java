@@ -11,7 +11,7 @@ import java.util.Objects;
  * GameStatus
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-11-03T14:41:14.790822958+01:00[Europe/Zurich]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-11-03T14:54:09.481151016+01:00[Europe/Zurich]")
 public class GameStatus {
 
   @JsonProperty("card")
