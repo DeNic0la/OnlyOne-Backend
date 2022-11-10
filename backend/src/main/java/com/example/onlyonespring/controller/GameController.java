@@ -32,15 +32,14 @@ public class GameController {
                         .topCard(Card.builder().number(joinedRoom.getTopCardNumber())
                                 .color(joinedRoom.getTopCardColor())
                                 .build())
-                        .isYourTurn(true) // TODO AKIN: implement shit
+                        .isYourTurn(joinedRoom.getCurrentPlayer().getId()
+                                .equals(user.getId()))
                         .build());
             } else {
                 return ResponseEntity.notFound().build();
             }
-
         } else {
             return ResponseEntity.notFound().build();
         }
     }
-
 }

@@ -28,6 +28,11 @@ public class FullRoom {
 
     @Getter
     @Setter
+    @OneToOne
+    private Player currentPlayer;
+
+    @Getter
+    @Setter
     @Column(name = "name", nullable = false)
     private String name;
 
