@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
 import javax.annotation.Generated;
 import javax.validation.constraints.Max;
@@ -15,21 +16,81 @@ import java.util.Objects;
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-11-03T14:54:09.481151016+01:00[Europe/Zurich]")
+@Builder
 public class Card {
 
   @JsonProperty("number")
   private Long number;
 
   /**
+   * Get number
+   * minimum: 1
+   * maximum: 9
+   *
+   * @return number
+   */
+  @Min(1L)
+  @Max(9L)
+  @Schema(name = "number", example = "4", required = false)
+  public Long getNumber() {
+    return number;
+  }
+
+  @JsonProperty("color")
+  private ColorEnum color;
+
+  public Card number(Long number) {
+    this.number = number;
+    return this;
+  }
+
+  /**
+   * Get color
+   *
+   * @return color
+   */
+
+  @Schema(name = "color", example = "blue", required = false)
+  public ColorEnum getColor() {
+    return color;
+  }
+
+  public void setNumber(Long number) {
+    this.number = number;
+  }
+
+  public Card color(ColorEnum color) {
+    this.color = color;
+    return this;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Card card = (Card) o;
+    return Objects.equals(this.number, card.number) &&
+            Objects.equals(this.color, card.color);
+  }
+
+  public void setColor(ColorEnum color) {
+    this.color = color;
+  }
+
+  /**
    * Gets or Sets color
    */
   public enum ColorEnum {
     BLUE("blue"),
-    
+
     GREEN("green"),
-    
+
     RED("red"),
-    
+
     YELLOW("yellow");
 
     private String value;
@@ -57,62 +118,6 @@ public class Card {
       }
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
-  }
-
-  @JsonProperty("color")
-  private ColorEnum color;
-
-  public Card number(Long number) {
-    this.number = number;
-    return this;
-  }
-
-  /**
-   * Get number
-   * minimum: 1
-   * maximum: 9
-   * @return number
-  */
-  @Min(1L) @Max(9L) 
-  @Schema(name = "number", example = "4", required = false)
-  public Long getNumber() {
-    return number;
-  }
-
-  public void setNumber(Long number) {
-    this.number = number;
-  }
-
-  public Card color(ColorEnum color) {
-    this.color = color;
-    return this;
-  }
-
-  /**
-   * Get color
-   * @return color
-  */
-  
-  @Schema(name = "color", example = "blue", required = false)
-  public ColorEnum getColor() {
-    return color;
-  }
-
-  public void setColor(ColorEnum color) {
-    this.color = color;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Card card = (Card) o;
-    return Objects.equals(this.number, card.number) &&
-        Objects.equals(this.color, card.color);
   }
 
   @Override
