@@ -15,28 +15,29 @@ import java.util.Objects;
 public class GameStatus {
 
   @JsonProperty("card")
-  private Card card;
+  private Card topCard;
 
   @JsonProperty("is_your_turn")
   private Boolean isYourTurn;
 
   public GameStatus card(Card card) {
-    this.card = card;
+    this.topCard = card;
     return this;
   }
 
   /**
    * Get card
+   *
    * @return card
-  */
-  @Valid 
+   */
+  @Valid
   @Schema(name = "card", required = false)
-  public Card getCard() {
-    return card;
+  public Card getTopCard() {
+    return topCard;
   }
 
-  public void setCard(Card card) {
-    this.card = card;
+  public void setTopCard(Card topCard) {
+    this.topCard = topCard;
   }
 
   public GameStatus isYourTurn(Boolean isYourTurn) {
@@ -67,20 +68,20 @@ public class GameStatus {
       return false;
     }
     GameStatus gameStatus = (GameStatus) o;
-    return Objects.equals(this.card, gameStatus.card) &&
-        Objects.equals(this.isYourTurn, gameStatus.isYourTurn);
+    return Objects.equals(this.topCard, gameStatus.topCard) &&
+            Objects.equals(this.isYourTurn, gameStatus.isYourTurn);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(card, isYourTurn);
+    return Objects.hash(topCard, isYourTurn);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class GameStatus {\n");
-    sb.append("    card: ").append(toIndentedString(card)).append("\n");
+    sb.append("    card: ").append(toIndentedString(topCard)).append("\n");
     sb.append("    isYourTurn: ").append(toIndentedString(isYourTurn)).append("\n");
     sb.append("}");
     return sb.toString();
