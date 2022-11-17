@@ -112,7 +112,9 @@ public class RoomController {
         if (joinedRooms.contains(r)) {
             System.out.println(p.getUsername() + " Already Joined Room " + r.getId());
         } else {
-            joinedRooms = Arrays.asList(r); //TODO: Change joinedRooms to joinedRoom
+            joinedRooms.clear();
+            joinedRooms.add(r); //TODO: Change joinedRooms to joinedRoom
+
             p.setJoinedRooms(joinedRooms);
             playerRepository.save(p);
         }
