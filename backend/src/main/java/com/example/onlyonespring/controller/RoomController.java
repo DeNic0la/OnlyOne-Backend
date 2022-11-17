@@ -12,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class RoomController {
@@ -89,7 +87,7 @@ public class RoomController {
         if (joinedRooms.contains(r)) {
             System.out.println(p.getUsername() + " Already Joined Room " + r.getId());
         } else {
-            joinedRooms.add(r);
+            joinedRooms = Arrays.asList(r); //TODO: Change joinedRooms to joinedRoom
             p.setJoinedRooms(joinedRooms);
             playerRepository.save(p);
         }
