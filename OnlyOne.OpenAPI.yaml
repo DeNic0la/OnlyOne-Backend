@@ -163,6 +163,7 @@ paths:
         '404':
           description: You don't have such a card error
     get:
+      deprecated: true
       tags:
         - play
       summary: View all your Cards
@@ -188,6 +189,7 @@ paths:
 
   /play/{id}/new:
     get:
+      deprecated: true
       tags:
         - play
       summary: Pull a Card from the Stack
