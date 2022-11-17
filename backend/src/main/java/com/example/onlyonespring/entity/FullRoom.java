@@ -2,6 +2,7 @@ package com.example.onlyonespring.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.openapitools.model.Card;
 import org.openapitools.model.Room;
 
 import javax.persistence.*;
@@ -17,6 +18,18 @@ public class FullRoom {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @Getter
+    @Setter
+    private Long topCardNumber;
+    @Getter
+    @Setter
+    private Card.ColorEnum topCardColor;
+
+    @Getter
+    @Setter
+    @OneToOne
+    private Player currentPlayer;
 
     @Getter
     @Setter
