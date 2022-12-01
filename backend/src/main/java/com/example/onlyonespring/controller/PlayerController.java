@@ -31,6 +31,10 @@ public class PlayerController {
                 if (cardCanBePlayed(card, topCard)) {
                     room.setTopCardNumber(card.getNumber());
                     room.setTopCardColor(card.getColor());
+                    var joinedPlayers = room.getJoinedPlayers();
+                    var currentPlayerIndex = joinedPlayers.indexOf(room.getCurrentPlayer());
+                    int nextPlayerIndex = currentPlayerIndex == joinedPlayers.size() - 1 ? 0 : currentPlayerIndex + 1;
+                    room.setCurrentPlayer(joinedPlayers.get(nextPlayerIndex));
                     roomRepository.save(room);
                     return ResponseEntity.ok("card was played");
                 } else {

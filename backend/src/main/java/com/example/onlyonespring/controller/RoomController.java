@@ -140,6 +140,10 @@ public class RoomController {
             FullRoom fullRoom = byId.get();
             List<Player> joinedPlayers = fullRoom.getJoinedPlayers();
             joinedPlayers.remove(player);
+            if (joinedPlayers.size() == 1) {
+                fullRoom.getJoinedPlayers().clear();
+            }
+            roomRepository.save(fullRoom);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         throw new FourZeroFourException();
