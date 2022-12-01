@@ -142,6 +142,7 @@ public class RoomController {
             joinedPlayers.remove(player);
             if (joinedPlayers.size() == 1) {
                 fullRoom.getJoinedPlayers().clear();
+                fullRoom.setStatus(Room.StatusEnum.FINISHED);
             }
             roomRepository.save(fullRoom);
             return new ResponseEntity<>(HttpStatus.OK);
