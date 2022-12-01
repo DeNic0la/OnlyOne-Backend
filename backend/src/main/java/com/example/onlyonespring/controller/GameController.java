@@ -28,13 +28,12 @@ public class GameController {
             if (optionalJoinedRoom.isPresent()) {
                 var joinedRoom = optionalJoinedRoom.get();
 
-                return ResponseEntity.ok(GameStatus.builder()
-                        .topCard(Card.builder().number(joinedRoom.getTopCardNumber())
-                                .color(joinedRoom.getTopCardColor())
-                                .build())
-                        .isYourTurn(joinedRoom.getCurrentPlayer().getId()
-                                .equals(user.getId()))
-                        .build());
+                return ResponseEntity.ok(
+                        GameStatus.builder()
+                                .topCard(Card.builder().number(joinedRoom.getTopCardNumber()).color(joinedRoom.getTopCardColor()).build())
+                                .isYourTurn(joinedRoom.getCurrentPlayer().getId().equals(user.getId()))
+                                .build()
+                );
             } else {
                 return ResponseEntity.notFound().build();
             }

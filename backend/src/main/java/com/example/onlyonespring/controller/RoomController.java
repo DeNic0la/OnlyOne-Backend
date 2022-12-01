@@ -140,8 +140,17 @@ public class RoomController {
             FullRoom fullRoom = byId.get();
             List<Player> joinedPlayers = fullRoom.getJoinedPlayers();
             joinedPlayers.remove(player);
+            shutdownIfAlone(joinedPlayers, fullRoom);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         throw new FourZeroFourException();
+    }
+
+    private void shutdownIfAlone(List<Player> joinedPlayers, FullRoom fullRoom) {
+        if (joinedPlayers.size() < 2) {
+            joinedPlayers.remove(0);
+            fullRoom.setStatus(Room.StatusEnum.FINISHED);
+            roomRepository.save(fullRoom);
+        }
     }
 }
