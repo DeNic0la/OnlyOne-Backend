@@ -1,0 +1,16 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "17",
+      "installGradle": "true"
+    }
+  },
+  "portsAttributes": {
+      "8080": {
+        "label": "Application",
+        "onAutoForward": "silent",
+        "requireLocalPort": "true"
+      }
+    }  
+}
