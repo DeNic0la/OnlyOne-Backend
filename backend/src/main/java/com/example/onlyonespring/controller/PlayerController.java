@@ -33,7 +33,7 @@ public class PlayerController {
 
             if (room.getCurrentPlayer().getUsername() == user.getUsername()) {
                 var topCard = Card.builder().number(room.getTopCardNumber()).color(room.getTopCardColor()).build();
-                if (Objects.isNull(card)) {
+                if (Objects.isNull(card) || card.getColor() == null || card.getNumber() == null) {
                     decideNextPlayer(room);
                     roomRepository.save(room);
                     return ResponseEntity.ok(Collections.singletonMap("response","card was not played. next turn") );

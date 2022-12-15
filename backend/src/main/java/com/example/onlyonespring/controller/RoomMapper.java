@@ -15,8 +15,10 @@ public class RoomMapper {
         room.setMaxPlayerCount(entity.getMax_player_count());
         room.setPlayerCount(entity.getPlayer_count().longValue());
 
-        Player host = entity.getJoinedPlayers() == null ? null : entity.getJoinedPlayers().get(0);
-        room.setHost((host == null ? "" : host.getUsername()));
+        if (room.getStatus() != Room.StatusEnum.FINISHED) {
+            Player host = entity.getJoinedPlayers() == null ? null : entity.getJoinedPlayers().get(0);
+            room.setHost((host == null ? "" : host.getUsername()));
+        }
         return room;
     }
 }
