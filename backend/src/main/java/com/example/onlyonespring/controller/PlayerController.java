@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -21,7 +23,7 @@ public class PlayerController {
     private PlayerRepository playerRepository;
 
     @PostMapping("/play/{id}")
-    public ResponseEntity<String> playCard(@RequestHeader("x-user") String username, @PathVariable Long id, @RequestBody Card card) {
+    public ResponseEntity<Map> playCard(@RequestHeader("x-user") String username, @PathVariable Long id, @RequestBody Card card) {
 
         var optionalRoom = roomRepository.findById(id);
         var user = HelperController.getOrCreatePlayerByUsername(username, playerRepository);
@@ -34,18 +36,19 @@ public class PlayerController {
                 if (Objects.isNull(card)) {
                     decideNextPlayer(room);
                     roomRepository.save(room);
-                    return ResponseEntity.ok("no card played, next turn");
+                    return ResponseEntity.ok(Collections.singletonMap("response","card was not played. next turn") );
                 } else if (cardCanBePlayed(card, topCard)) {
                     room.setTopCardNumber(card.getNumber());
                     room.setTopCardColor(card.getColor());
                     decideNextPlayer(room);
                     roomRepository.save(room);
-                    return ResponseEntity.ok("card was played");
+
+                    return ResponseEntity.ok(Collections.singletonMap("response","card was played") );
                 } else {
-                    return ResponseEntity.badRequest().body("card cannot be played");
+                    return ResponseEntity.badRequest().body( Collections.singletonMap("response","card cannot be played") );
                 }
             } else {
-                return ResponseEntity.badRequest().body("it's not your turn");
+                return ResponseEntity.badRequest().body( Collections.singletonMap("response","not your turn") );
             }
         } else {
             return ResponseEntity.notFound().build();
