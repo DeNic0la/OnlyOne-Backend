@@ -74,7 +74,7 @@ public class RoomController {
                 if (Objects.equals(state, "run")) {
                     var joinedPlayers = fullRoom.getJoinedPlayers();
                     if (joinedPlayers.size() < 2) {
-                        throw new NotFoundException("there are to little players");
+                        throw new NotFoundException("there are not enough players");
                     } else {
                         // pick player and add top card
                         var startPlayer = joinedPlayers.stream().findAny().get();
